@@ -19,7 +19,9 @@ const allList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await axios('http://localhost:4000/api/v1/expense');
+      const data = await axios(
+        'https://expense-tracker-api-gs75.onrender.com/api/v1/expense'
+      );
 
       dispatch({ type: 'SET_EXPENSE', payload: data.data.expense });
     };
