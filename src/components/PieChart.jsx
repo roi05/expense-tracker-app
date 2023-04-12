@@ -5,6 +5,7 @@ import { filterCategory } from '../utils/filterCategory';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import numeral from 'numeral';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -14,18 +15,16 @@ const PieChart = () => {
   const incomeData = filterCategory('income', expenses);
   const expenseData = filterCategory('expense', expenses);
 
-  const options1 = {
-    tooltips: {
-      callbacks: {
-        label: function (tooltipItem, data) {
-          // Get the value of the current data point
-          const value =
-            incomeData.datasets[tooltipItem.datasetIndex].data[
-              tooltipItem.index
-            ];
-          // Add a custom string to the tooltip value
-          const label = `Value: ${value} Custom Text`;
-          return label;
+  const options = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            // customize the label text here
+            return `${context.label}: ₱${numeral(context.parsed).format(
+              '0,0.00'
+            )}`;
+          },
         },
       },
     },
@@ -50,7 +49,10 @@ const PieChart = () => {
             sx={{ fontWeight: '800' }}>
             Income
           </Typography>
-          <Pie data={incomeData} options={options1} />
+          <Pie
+            data={incomeData}
+            options={options}
+          />
         </Grid>
         <Grid
           item
@@ -62,7 +64,10 @@ const PieChart = () => {
             sx={{ fontWeight: '800' }}>
             Expenses
           </Typography>
-          <Pie data={expenseData} />
+          <Pie
+            data={expenseData}
+            options={options}
+          />
         </Grid>
       </Grid>
     </Box>
