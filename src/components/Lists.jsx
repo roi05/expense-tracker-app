@@ -1,33 +1,19 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import IndividualList from './IndividualList';
-import { useExpenseContext } from '../hooks/useExpenseContext';
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
-import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { useExpenseData } from '../hooks/useExpenseData';
 
 const allList = () => {
-  const { expenses, dispatch } = useExpenseContext();
   const { openSnackbar, handleCloseSnackbar, snackbarMessage } =
     useSnackbarContext();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await axios(
-        'https://expense-tracker-api-gs75.onrender.com/api/v1/expense'
-      );
-
-      dispatch({ type: 'SET_EXPENSE', payload: data.data.expense });
-    };
-
-    fetchData();
-  }, []);
+  const { data } = useExpenseData();
 
   return (
     <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
@@ -51,7 +37,7 @@ const allList = () => {
       />
       <List>
         <TransitionGroup>
-          {expenses.map(e => {
+          {data?.data.expense.map(e => {
             return (
               <Collapse key={e._id}>
                 <IndividualList

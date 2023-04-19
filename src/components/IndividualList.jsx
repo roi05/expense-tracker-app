@@ -5,21 +5,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import SavingsRoundedIcon from '@mui/icons-material/SavingsRounded';
 import axios from 'axios';
-import { useExpenseContext } from '../hooks/useExpenseContext';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import numeral from 'numeral';
+import { useDeleteExpenseData } from '../hooks/useExpenseData';
 
 const individualList = ({ e }) => {
-  const { dispatch } = useExpenseContext();
   const { setOpenSnackbar, setSnackbarMessage } = useSnackbarContext();
 
+  const { mutate } = useDeleteExpenseData();
+
   const deleteItem = async _id => {
-    const response = await axios.delete(
-      `https://expense-tracker-api-gs75.onrender.com/api/v1/expense/${_id}`
-    );
+    await mutate(_id);
     setOpenSnackbar(true);
     setSnackbarMessage('Successfully deleted');
-    dispatch({ type: 'DELETE_EXPENSE', payload: { _id } });
   };
   const expenseColor = e.type === 'expense' ? 'error' : 'success';
   return (

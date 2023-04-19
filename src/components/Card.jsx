@@ -2,17 +2,17 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { useExpenseContext } from '../hooks/useExpenseContext';
 import numeral from 'numeral';
+import { useExpenseData } from '../hooks/useExpenseData';
 
 const Card = () => {
-  const { expenses } = useExpenseContext();
+  const { data } = useExpenseData();
 
-  const expenseTotal = expenses
+  const expenseTotal = data?.data.expense
     .filter(item => item.type === 'expense')
     .reduce((acc, item) => acc + item.amount, 0);
 
-  const savingTotal = expenses
+  const savingTotal = data?.data.expense
     .filter(item => item.type === 'income')
     .reduce((acc, item) => acc + item.amount, 0);
 

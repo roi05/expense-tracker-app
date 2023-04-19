@@ -9,14 +9,14 @@ import Grid from '@mui/material/Grid';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import InputAdornment from '@mui/material/InputAdornment';
 import { incomeCategories, expenseCategories } from '../constants/category';
-import axios from 'axios';
 import { useFormik } from 'formik';
-import { useExpenseContext } from '../hooks/useExpenseContext';
+import { useAddExpenseData } from '../hooks/useExpenseData';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
 
 const Form = () => {
-  const { dispatch } = useExpenseContext();
   const { setOpenSnackbar, setSnackbarMessage } = useSnackbarContext();
+
+  const { mutate } = useAddExpenseData();
 
   const formik = useFormik({
     initialValues: {
@@ -25,14 +25,9 @@ const Form = () => {
       amount: '',
     },
     onSubmit: async (values, { resetForm }) => {
-      const response = await axios.post(
-        'https://expense-tracker-api-gs75.onrender.com/api/v1/expense',
-        values
-      );
+      await mutate(values);
       setOpenSnackbar(true);
       setSnackbarMessage('Successfully Added');
-      dispatch({ type: 'CREATE_EXPENSE', payload: response.data });
-
       resetForm();
     },
   });

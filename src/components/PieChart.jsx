@@ -1,16 +1,18 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { useExpenseContext } from '../hooks/useExpenseContext';
 import { filterCategory } from '../utils/filterCategory';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import numeral from 'numeral';
+import { useExpenseData } from '../hooks/useExpenseData';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = () => {
-  const { expenses } = useExpenseContext();
+  const { data } = useExpenseData();
+
+  const expenses = data?.data.expense || [];
 
   const incomeData = filterCategory('income', expenses);
   const expenseData = filterCategory('expense', expenses);
