@@ -12,13 +12,13 @@ const Balance = () => {
         <Grid
           item
           xs={12}
-          sm={6}>
+          md={6}>
           <Card />
         </Grid>
         <Grid
           item
           xs={12}
-          sm={6}>
+          md={6}>
           <Form />
         </Grid>
       </Grid>

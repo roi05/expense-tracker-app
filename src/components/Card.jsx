@@ -4,9 +4,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import numeral from 'numeral';
 import { useExpenseData } from '../hooks/useExpenseData';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const Card = () => {
   const { data } = useExpenseData();
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
   const expenseTotal = data?.data.expense
     .filter(item => item.type === 'expense')
@@ -28,7 +33,7 @@ const Card = () => {
             My Balance
           </Typography>
           <Typography
-            variant='h3'
+            variant={isXs ? 'h5' : 'h3'}
             sx={{ fontWeight: 500 }}
             gutterBottom>
             {`₱${numeral(allTotal).format('0,0.00')}`}
@@ -47,7 +52,7 @@ const Card = () => {
                   Income
                 </Typography>
                 <Typography
-                  variant='h4'
+                  variant={isXs ? 'h5' : 'h3'}
                   gutterBottom>
                   {`+ ₱${numeral(savingTotal).format('0,0.00')}`}
                 </Typography>
@@ -61,7 +66,7 @@ const Card = () => {
                   Expense
                 </Typography>
                 <Typography
-                  variant='h4'
+                  variant={isXs ? 'h5' : 'h3'}
                   gutterBottom>
                   {`- ₱${numeral(expenseTotal).format('0,0.00')}`}
                 </Typography>

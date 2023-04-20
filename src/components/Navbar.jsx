@@ -11,7 +11,7 @@ const NavBar = () => {
   const { user } = useUserContext();
 
   const theme = useTheme();
-  const isMedium = useMediaQuery(theme.breakpoints.up('sm'));
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
     <Box
@@ -22,13 +22,13 @@ const NavBar = () => {
         borderBottom: '1px solid #222831',
       }}>
       <Stack
-        direction={isMedium ? 'row' : 'column'}
+        direction={isSmall ? 'row' : 'column'}
         justifyContent='space-between'
         alignItems='center'>
         <Typography
           variant='h4'
           align='center'
-          sx={{ fontWeight: 500, mb: isMedium ? 0 : 5 }}>
+          sx={{ fontWeight: 500, mb: isSmall ? 0 : 5 }}>
           Hello, {user ? user : ' welcome to my app'}
         </Typography>
 
