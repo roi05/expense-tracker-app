@@ -57,7 +57,9 @@ const Login = () => {
         width: '100vw',
         height: '70vh',
       }}>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={formik.handleSubmit}
+        style={{ padding: '1rem' }}>
         <TextField
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}

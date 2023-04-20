@@ -4,25 +4,31 @@ import Typography from '@mui/material/Typography';
 import { useUserContext } from '../hooks/useUserContext';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const NavBar = () => {
   const { user } = useUserContext();
+
+  const theme = useTheme();
+  const isMedium = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
     <Box
       sx={{
         maxWidth: '90%',
         mx: 'auto',
-        py: 2,
-
+        py: 5,
         borderBottom: '1px solid #222831',
       }}>
       <Stack
-        direction='row'
+        direction={isMedium ? 'row' : 'column'}
         justifyContent='space-between'
         alignItems='center'>
         <Typography
           variant='h4'
-          sx={{ fontWeight: 500 }}>
+          align='center'
+          sx={{ fontWeight: 500, mb: isMedium ? 0 : 5 }}>
           Hello, {user ? user : ' welcome to my app'}
         </Typography>
 

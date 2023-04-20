@@ -43,7 +43,8 @@ const PieChart = () => {
         spacing={2}>
         <Grid
           item
-          xs={6}>
+          xs={12}
+          sm={6}>
           <Typography
             variant='h5'
             gutterBottom
@@ -58,7 +59,8 @@ const PieChart = () => {
         </Grid>
         <Grid
           item
-          xs={6}>
+          xs={12}
+          sm={6}>
           <Typography
             variant='h5'
             gutterBottom

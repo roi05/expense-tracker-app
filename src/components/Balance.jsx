@@ -11,12 +11,14 @@ const Balance = () => {
         spacing={2}>
         <Grid
           item
-          xs={6}>
+          xs={12}
+          sm={6}>
           <Card />
         </Grid>
         <Grid
           item
-          xs={6}>
+          xs={12}
+          sm={6}>
           <Form />
         </Grid>
       </Grid>
