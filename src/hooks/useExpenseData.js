@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { v4 as uuidv4 } from 'uuid';
 
 const getConfig = () => {
   const token = Cookies.get('token') || null; // Get the value of the 'token' cookie
@@ -40,7 +41,24 @@ export const useExpenseData = () => {
 export const useAddExpenseData = () => {
   const queryClient = useQueryClient();
   return useMutation(addExpense, {
-    onSuccess: data => {
+    onMutate: async values => {
+      await queryClient.cancelQueries(['expense']);
+      const previousData = queryClient.getQueryData(['expense']);
+      queryClient.setQueryData(['expense'], oldQueryData => {
+        return {
+          ...oldQueryData,
+          data: [...oldQueryData.data, { _id: uuidv4(), ...values }],
+        };
+      });
+
+      return { previousData };
+    },
+
+    onError: (_error, _newValues, context) => {
+      queryClient.setQueryData(['expense'], context.previousData);
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries(['expense']);
     },
   });
@@ -49,7 +67,24 @@ export const useAddExpenseData = () => {
 export const useDeleteExpenseData = () => {
   const queryClient = useQueryClient();
   return useMutation(deleteExpense, {
-    onSuccess: data => {
+    onMutate: async id => {
+      await queryClient.cancelQueries(['expense']);
+      const previousData = queryClient.getQueryData(['expense']);
+      queryClient.setQueryData(['expense'], oldQueryData => {
+        return {
+          ...oldQueryData,
+          data: oldQueryData.data.filter(expense => expense._id !== id),
+        };
+      });
+
+      return { previousData };
+    },
+
+    onError: (_error, _newValues, context) => {
+      queryClient.setQueryData(['expense'], context.previousData);
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries(['expense']);
     },
   });
