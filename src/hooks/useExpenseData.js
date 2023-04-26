@@ -40,6 +40,7 @@ export const useExpenseData = () => {
 
 export const useAddExpenseData = () => {
   const queryClient = useQueryClient();
+
   return useMutation(addExpense, {
     onMutate: async values => {
       await queryClient.cancelQueries(['expense']);
@@ -47,7 +48,7 @@ export const useAddExpenseData = () => {
       queryClient.setQueryData(['expense'], oldQueryData => {
         return {
           ...oldQueryData,
-          data: [...oldQueryData.data, { _id: uuidv4(), ...values }],
+          data: [{ _id: uuidv4(), ...values }, ...oldQueryData.data],
         };
       });
 
