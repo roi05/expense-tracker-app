@@ -23,7 +23,6 @@ const allList = () => {
     navigate('/login');
     Cookies.remove('token');
     localStorage.removeItem('user');
-    window.location.reload();
   }
 
   return (
