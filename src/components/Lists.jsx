@@ -8,12 +8,23 @@ import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useExpenseData } from '../hooks/useExpenseData';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const allList = () => {
   const { openSnackbar, handleCloseSnackbar, snackbarMessage } =
     useSnackbarContext();
 
-  const { data } = useExpenseData();
+  const navigate = useNavigate();
+
+  const { data, error } = useExpenseData();
+
+  if (error) {
+    navigate('/login');
+    Cookies.remove('token');
+    localStorage.removeItem('user');
+    window.location.reload();
+  }
 
   return (
     <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
